@@ -1,21 +1,27 @@
-// import posgress modules
-const {pool} =  require('pg');
+// import postgres module
+const { Pool } = require('pg');
 
-// prepare connection parameter
+// prepare connection parameters
 const dbConfig = {
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT || 5432,
-    password: process.env.DB_PASS,
-}
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 5432,
+  password: process.env.DB_PASS,
+};
+
 // create connection pool
 const pool = new Pool(dbConfig);
 
-// create a function excutes sql queries asynchronously
-async function query(sql,params) {
-    const res = await pool.query(sql,params)
-    return res.rows;
-    
+// test connection
+pool.connect()
+  .then(() => console.log("PostgreSQL Connected"))
+  .catch(() => console.log("PostgreSQL Not Connected"));
+
+// create a function that executes SQL queries asynchronously
+async function query(sql, params) {
+  const res = await pool.query(sql, params);
+  return res.rows;
 }
-module.exports = {query}
+
+module.exports = { query };
