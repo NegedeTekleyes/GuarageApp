@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router'
 // import './App.css'
 import Login from './markup/pages/Login'
 import Home from './markup/pages/Home'
-import AddEmployee from './markup/pages/admin/add-employee'
+import AddEmployee from './markup/pages/admin/AddEmployee'
 import Footer from './markup/components/Footer/Footer'
 // Import the css files 
 import "./assets/template_assets/css/bootstrap.css";
@@ -22,7 +22,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path='/login' element={<Login/>}/>
-      <Route path='/admin/add-employee' element={<AddEmployee/>}/>
+      <Route path='/addemployee' element={<AddEmployee/>}/>
     </Routes>
     <Footer/>
     </>
