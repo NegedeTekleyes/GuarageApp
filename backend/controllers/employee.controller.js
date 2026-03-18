@@ -33,4 +33,7 @@ async function  createEmployee(req, res, next)  {
     }
     
 }
-module.exports = {createEmployee}
+module.exports = {
+    createEmployee,
+}
+    
