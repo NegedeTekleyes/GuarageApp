@@ -62,7 +62,28 @@ async function checkEmployeeExists(email) {
   )
     // return result.rows.length > 0
 }
+// a function get employe by email
+async function getEmployeeByEmail(email) {
+    const result = await pool.query(
+    `SELECT 
+        e.employee_id,
+        e.employee_email,
+        e.active_employee,
+        e.employee_role,
+        ei.employee_first_name,
+        ei.employee_last_name,
+        ep.employee_password_hashed
+     FROM employee e
+     JOIN employee_info ei ON e.employee_id = ei.employee_id
+     JOIN employee_pass ep ON e.employee_id = ep.employee_id
+     JOIN employee
+     WHERE e.employee_email = $1`,
+    [email]
+  );
+  
 
+  
+}
 module.exports = {
   createEmployee,
   checkEmployeeExists
