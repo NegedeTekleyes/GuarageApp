@@ -2,16 +2,17 @@
 const { Pool } = require('pg');
 
 // prepare connection parameters
-const dbConfig = {
+const pool = new Pool ({
+    connectionLimit: 10,
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT || 5432,
   password: process.env.DB_PASS,
-};
+});
 
 // create connection pool
-const pool = new Pool(dbConfig);
+// const pool = new Pool(dbConfig);
 
 // test connection
 pool.connect()
@@ -24,4 +25,4 @@ async function query(sql, params) {
   return res.rows;
 }
 
-module.exports = { query };
+module.exports = pool;
