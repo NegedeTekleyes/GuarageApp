@@ -12,16 +12,18 @@ const corsOption = {
     optionsSucessStatus: 200,
 }
 // Create a variable to hold our port number 
-const router = require('./routes/install.routes')
-const employeeRoute = require('../backend/routes/employee.routes')
+const router = require('./routes')
+// const employeeRoute = require('../backend/routes/employee.routes')
+// const loginRoute = require('./routes/login.routes')
 const port = process.env.PORT
 const app = express()
 app.use(express.json())
-app.use('/api/employee', employeeRoute)
+app.use(router)
+// app.use('/api/employee/login', loginRoute)
         //  We will need to add it on our app as a middleware 
 
 app.use(sanitize.middleware)
-app.use(cors())
+app.use(cors(corsOption))
 // add the routes as a medileware b/4 the webserver start
 app.use(router);
 // const aiRoute = require('./routes/aiRoute')
