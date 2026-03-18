@@ -13,13 +13,15 @@ const corsOption = {
 }
 // Create a variable to hold our port number 
 const router = require('./routes/install.routes')
+const employeeRoute = require('../backend/routes/employee.routes')
 const port = process.env.PORT
 const app = express()
 app.use(express.json())
+app.use('/api/employee', employeeRoute)
         //  We will need to add it on our app as a middleware 
 
 app.use(sanitize.middleware)
-app.use(cors(corsOption))
+app.use(cors())
 // add the routes as a medileware b/4 the webserver start
 app.use(router);
 // const aiRoute = require('./routes/aiRoute')
