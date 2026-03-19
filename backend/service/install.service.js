@@ -5,7 +5,7 @@ const fs = require('fs');
 // Write a function to create the database tables 
 async function install() {
     // Create a variable to hold the path to the sql folder 
-    const queryFile = __dirname + '/sql/initial-queries.sql'; // Fix the spelling from 'initial-quries.sql'
+    const queryFile = __dirname + '/sql/initial-queries.sql'; 
     console.log(queryFile); // Log the correct variable that contains the path
     
     // Temporary variable, used to store all queries, the return message and the current query
