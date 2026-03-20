@@ -1,4 +1,35 @@
+import { useState } from "react";
 
+const [employee_first_name, setFirstName] = useState('')
+const [employee_last_name, setLastName] = useState('')
+const [employee_email, setEmail] = useState('')
+const [employee_password, setPassword] = useState('')
+const [employee_phone, setPhoneNumber] = useState('')
+const [active_employee, setActive_employee] = useState(1)
+const [company_role_id, setRole] = useState(1)
+
+// set error
+const [emailError, setEmailError] = useState('')
+const [firstNameRequired, setFirstNameRequires] = useState('')
+const [passwordError, setPasswordError] = useState('')
+const [sucess, setSucess] = useState(false)
+const [serverError, setServerError] = useState('')
+
+const handleSubmit = (e) => {
+  e.preventDefault()
+  // handle client side validation
+  let valid = true  // flag
+
+  // first name required
+  if(!employee_first_name) {
+    setFirstNameRequires('First name is required')
+    valid = false
+  } else{
+    setFirstNameRequires('')
+  }
+
+ 
+}
 function AddEmployeeForm() {
   return (
    
@@ -11,21 +42,27 @@ function AddEmployeeForm() {
           <div className="form-column col-lg-7">
             <div className="inner-column">
               <div className="contact-form">
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="row clearfix">
                     <div className="form-group col-md-12">
-                      <input type="email" name="employee_email" placeholder="Employee email" />
+                      {serverError &&
+                      <div className="validation-error" role="alert">{serverError}</div>
+                      }
+                      <input type="email" value={employee_email} name="employee_email" onChange= {event => setEmail(event.target.value)} placeholder="Employee email" />
+                      {emailError &&
+                      <div className="validation-error" role="alert">{emailError}</div>
+                      }
                     </div>
                     <div className="form-group col-md-12">
-                      <input type="text" name="employee_first_name" placeholder="Employee first name" />
+                      <input type="text" value={employee_first_name} name="employee_first_name" onChange={event => setFirstName(event.target.value)} placeholder="Employee first name" />
                     </div>
 
                     <div className="form-group col-md-12">
-                      <input type="text" name="employee_last_name" placeholder="Employee last name" required />
+                      <input type="text" value={employee_last_name} name="employee_last_name" onChange={event => setLastName(event.target.value)} placeholder="Employee last name" required />
                     </div>
 
                     <div className="form-group col-md-12">
-                      <input type="text" name="employee_phone" placeholder="Employee phone (555-555-5555)" required />
+                      <input type="text" value={employee_phone} name="employee_phone" onChange={event => setPhoneNumber(event.target.value)} placeholder="Employee phone (555-555-5555)" required />
                     </div>
 
                     <div className="form-group col-md-12">
@@ -37,7 +74,9 @@ function AddEmployeeForm() {
                     </div>
 
                     <div className="form-group col-md-12">
-                      <input type="password" name="employee_password" placeholder="Employee password" />
+                      <input type="password" value={setPassword} name="employee_password" onChange={event => setPassword(event.target.value)} placeholder="Employee password" />
+                      {passwordError && <div className="validation-error" role="alert">{passwordError}</div>
+                      }
                     </div>
 
                     <div className="form-group col-md-12">
