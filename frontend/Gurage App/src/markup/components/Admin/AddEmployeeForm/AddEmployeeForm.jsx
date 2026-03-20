@@ -51,6 +51,31 @@ const handleSubmit = (e) => {
   } else {
     setPasswordError('')
   }
+  // if the form is do not valid not submit
+  if(!valid) {
+    return;
+  }
+
+  const formData = {
+    employee_email,
+    employee_first_name,
+    employee_last_name,
+    employee_password,
+    employee_phone,
+    active_employee,
+    company_role_id
+
+  }
+
+
+  // pass the form data
+  const newEmployee = employeeService.createEmployee(formData)
+  newEmployee.then((response) => response.json())
+  .then((data) => {
+    if(data.error) {
+      setServerError(data.error)
+    }
+  })
 }
 function AddEmployeeForm() {
   return (
