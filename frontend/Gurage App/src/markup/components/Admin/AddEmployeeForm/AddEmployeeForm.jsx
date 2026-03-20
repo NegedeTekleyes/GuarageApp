@@ -28,7 +28,29 @@ const handleSubmit = (e) => {
     setFirstNameRequires('')
   }
 
- 
+  // email required
+  if(!employee_email ){
+    setEmail('Email is required')
+    valid = false
+  } else if(!employee_email.includes('@')){
+    setEmailError('Invalid email format')
+  } else{
+      const regex = /^\S+@\S+\.\S+$/;
+  }
+  if(!regex.test(employee_email)){
+    setEmailError('Invalid email format')
+    valid = false
+  } else {
+    setEmailError('')
+  }
+
+  // password limit
+  if(!employee_password || employee_password.length < 6) {
+    setPasswordError('Password must be at least 6 character long')
+    valid = false
+  } else {
+    setPasswordError('')
+  }
 }
 function AddEmployeeForm() {
   return (
