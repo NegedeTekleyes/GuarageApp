@@ -1,25 +1,12 @@
 import { useState } from "react";
-
-const [employee_first_name, setFirstName] = useState('')
-const [employee_last_name, setLastName] = useState('')
-const [employee_email, setEmail] = useState('')
-const [employee_password, setPassword] = useState('')
-const [employee_phone, setPhoneNumber] = useState('')
-const [active_employee, setActive_employee] = useState(1)
-const [company_role_id, setRole] = useState(1)
-
-// set error
-const [emailError, setEmailError] = useState('')
-const [firstNameRequired, setFirstNameRequires] = useState('')
-const [passwordError, setPasswordError] = useState('')
-const [sucess, setSucess] = useState(false)
-const [serverError, setServerError] = useState('')
+// import employeeService from '../../../../service/employee.service'
+import employeeService from '../../../../service/employee.service'
 
 const handleSubmit = (e) => {
   e.preventDefault()
   // handle client side validation
   let valid = true  // flag
-
+  
   // first name required
   if(!employee_first_name) {
     setFirstNameRequires('First name is required')
@@ -27,7 +14,7 @@ const handleSubmit = (e) => {
   } else{
     setFirstNameRequires('')
   }
-
+  
   // email required
   if(!employee_email ){
     setEmail('Email is required')
@@ -35,7 +22,7 @@ const handleSubmit = (e) => {
   } else if(!employee_email.includes('@')){
     setEmailError('Invalid email format')
   } else{
-      const regex = /^\S+@\S+\.\S+$/;
+    const regex = /^\S+@\S+\.\S+$/;
   }
   if(!regex.test(employee_email)){
     setEmailError('Invalid email format')
@@ -43,7 +30,7 @@ const handleSubmit = (e) => {
   } else {
     setEmailError('')
   }
-
+  
   // password limit
   if(!employee_password || employee_password.length < 6) {
     setPasswordError('Password must be at least 6 character long')
@@ -55,7 +42,7 @@ const handleSubmit = (e) => {
   if(!valid) {
     return;
   }
-
+  
   const formData = {
     employee_email,
     employee_first_name,
@@ -64,20 +51,52 @@ const handleSubmit = (e) => {
     employee_phone,
     active_employee,
     company_role_id
-
+    
   }
-
-
-  // pass the form data
+  
+  // pass the form data to the services
   const newEmployee = employeeService.createEmployee(formData)
   newEmployee.then((response) => response.json())
   .then((data) => {
     if(data.error) {
       setServerError(data.error)
+    } else{
+      setSucess(true)
+      setServerError('')
+      
+      setTimeout(()=> {
+        window.location.href('/')
+      },2000)
     }
   })
-}
-function AddEmployeeForm() {
+  .catch((error) => {
+    const resMessage = (
+      error.response &&
+      error.response.data &&
+      error.response.data.message) ||
+      error.message ||
+      error.toString()
+      serverError(resMessage)
+      
+      
+    })
+  }
+  function AddEmployeeForm() {
+  const [employee_first_name, setFirstName] = useState('')
+  const [employee_last_name, setLastName] = useState('')
+  const [employee_email, setEmail] = useState('')
+  const [employee_password, setPassword] = useState('')
+  const [employee_phone, setPhoneNumber] = useState('')
+  const [active_employee, setActive_employee] = useState(1)
+  const [company_role_id, setRole] = useState(1)
+  
+  // set error
+  const [emailError, setEmailError] = useState('')
+  const [firstNameRequired, setFirstNameRequires] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+  const [sucess, setSucess] = useState(false)
+  const [serverError, setServerError] = useState('')
+
   return (
    
     <section className="contact-section">
