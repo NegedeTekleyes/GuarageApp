@@ -1,5 +1,6 @@
 import { useState } from "react"
 import {useNavigate,useLocation} from "react-router-dom"
+import { loginService } from "../../../service/login.service"
 
 function LoginForm() {
   const navigate = useNavigate()
@@ -16,7 +17,7 @@ function LoginForm() {
     let valid = true
     // email is required
     if(!employee_email) {
-      setEmail('Please Enter Email address first')
+      setEmailError('Please Enter Email address first')
     } else if (!employee_email.includes ('@')){
       setEmailError('Invalid Email format')
      
@@ -45,13 +46,25 @@ function LoginForm() {
     const loginEmployee = loginService.logIn(formData)
     loginEmployee.then((response) => response.json())
     .then((response) => {
-      if (response.status = "sucess"){
+      if (response.status = "success"){
         // save the user in the local storage
-        if (response.data.employee_token) {
+        if (response?.data?.employee_token) {
           localStorage.setItem("employee", JSON.stringify(response.data))
         }
+
+        if (location.pathname === "/login") {
+          window.location.replace('/')
+        } else {
+          window.location.reload()
+        }
+      } else {
+        setServerError(response.message)
       }
     })
+    .catch((error) => {
+      console.log(error)
+      serverError("An error has occured.Plase try again", + error)
+    } )
   }
   return (
     <section className="contact-section">
