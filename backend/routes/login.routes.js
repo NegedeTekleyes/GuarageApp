@@ -2,5 +2,5 @@
  const router = express.Router()
  const loginController = require('../controllers/login.controller')
 
- router.post('/login', loginController.logIn)
+ router.post("/api/employee/login", loginController.logIn)
  module.exports =router
