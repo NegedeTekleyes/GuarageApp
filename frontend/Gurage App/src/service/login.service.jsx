@@ -5,12 +5,13 @@ const requestOptions = {
     method : "POST",
     headers: {
         'content-type': 'application/json'
-    }
+    },
+    body: JSON.stringify(FormData)
 }
 const response = await fetch(`${api_url}/api/employee/login`, requestOptions)
 return response
 }
 
-module.exports = {
+ export const loginService = {
     logIn
 }
