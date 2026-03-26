@@ -11,61 +11,58 @@ function LoginForm() {
   const [passwordError, setPasswordError] = useState('')
   const [serverError, setServerError] = useState('')
 
-  const handleSubmit = async(e) => {
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    let valid = true
-    // email is required
-    if(!employee_email) {
-      setEmailError('Please Enter Email address first')
-    } else if (!employee_email.includes ('@')){
-      setEmailError('Invalid Email format')
-     
+  let valid = true;
+
+  // Email validation
+  if (!employee_email) {
+    setEmailError('Please enter email address first');
+    valid = false;
+  } else {
+    const regex = /^\S+@\S+\.\S+$/;
+    if (!regex.test(employee_email)) {
+      setEmailError('Invalid email format');
+      valid = false;
     } else {
-      const regex = /^\S+@\S+\.\S+$/;
-      if(!regex.test(employee_email)) {
-        setEmail('Invalid Email format')
-        valid = false
-      }
-      setEmailError('')
-       valid = false
+      setEmailError('');
     }
-    // password is required
-    if(!employee_password || employee_password.length < 6) {
-      setPassword('Password length is must be at least  6 character long.')
-    } else{
-      setPassword('')
-      valid = false
-    }
-
-    const formData = {
-      employee_email,
-      employee_password
-    }
-
-    const loginEmployee = loginService.logIn(formData)
-    loginEmployee.then((response) => response.json())
-    .then((response) => {
-      if (response.status = "success"){
-        // save the user in the local storage
-        if (response?.data?.employee_token) {
-          localStorage.setItem("employee", JSON.stringify(response.data))
-        }
-
-        if (location.pathname === "/login") {
-          window.location.replace('/')
-        } else {
-          window.location.reload()
-        }
-      } else {
-        setServerError(response.message)
-      }
-    })
-    .catch((error) => {
-      console.log(error)
-      serverError("An error has occured.Plase try again", + error)
-    } )
   }
+
+  // Password validation
+  if (!employee_password || employee_password.length < 6) {
+    setPasswordError('Password must be at least 6 characters long');
+    valid = false;
+  } else {
+    setPasswordError('');
+  }
+
+  if (!valid) return;
+
+  const formData = {
+    employee_email,
+    employee_password
+  };
+
+  try {
+    const res = await loginService.logIn(formData);
+    const data = await res.json();
+
+    if (data.status === "success") {
+      if (data?.data?.employee_token) {
+        localStorage.setItem("employee_token", data.data.employee_token);
+      }
+
+      navigate('/');
+    } else {
+      setServerError(data.message);
+    }
+  } catch (error) {
+    console.error(error);
+    setServerError("An error has occurred. Please try again.");
+  }
+};
   return (
     <section className="contact-section">
       <div className="auto-container">
@@ -79,7 +76,7 @@ function LoginForm() {
                 <form onSubmit={handleSubmit}>
                   <div className="row clearfix">
                     <div className="form-group col-md-12">
-                      {serverError && <div className="validation" role="alert">{serverError}</div>
+                      {setServerError && <div className="validation" role="alert">{setServerError}</div>
                       }
                       <input type="email" value={employee_email} name="employee_email" onChange={event => setEmail(event.target.value)} placeholder="Email" />
                       {emailError &&
@@ -87,7 +84,7 @@ function LoginForm() {
                       }
                     </div>
                     <div className="form-group col-md-12">
-                      <input type="password" name="employee_password" placeholder="Password" />
+                      <input type="password" value={employee_password} name="employee_password" onChange={event => setPassword(event.target.value)} placeholder="Password" />
                     </div>
                     <div className="form-group col-md-12">
                       <button className="theme-btn btn-style-one" type="submit" data-loading-text="Please wait..."><span>Login</span></button>
