@@ -10,7 +10,7 @@ async function logIn(req, res, next) {
         const employeeData = req.body;
         const employee = await loginService.logIn(employeeData);
 
-        if (employee.status === 'Fail') {
+        if (employee.status === 'fail') {
             return res.status(403).json({
                 status: employee.status,
                 message: employee.message,
@@ -20,14 +20,14 @@ async function logIn(req, res, next) {
         const payload = {
             employee_id: employee.data.employee_id,
             employee_email: employee.data.employee_email,
-            employeee_role: employee.data.employeee_role_id,
+            employee_role: employee.data.employee_role_id,
             employee_first_name: employee.data.employee_first_name,
-            // Do NOT include password
+            
         };
         const token = jwt.sign(payload, jwtSecret, { expiresIn: '24h' });
 
         res.status(200).json({
-            status: 'Success',
+            status: 'success',
             message: 'Employee login successful',
             data: { employee_token: token },
         });
