@@ -10,7 +10,7 @@ import "./assets/template_assets/css/bootstrap.css";
 import "./assets/template_assets/css/style.css";
 import "./assets/template_assets/css/responsive.css";
 import "./assets/template_assets/css/color.css";
-import "./assets/styles/custome.css"
+import "./assets/styles/custom.css"
 import Header from './markup/components/Header/Header'
 
 function App() {
