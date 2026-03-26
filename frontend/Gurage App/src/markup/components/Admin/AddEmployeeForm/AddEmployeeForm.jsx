@@ -1,8 +1,24 @@
 import { useState } from "react";
-// import employeeService from '../../../../service/employee.service'
 import employeeService from '../../../../service/employee.service'
 
-const handleSubmit = (e) => {
+
+  function AddEmployeeForm() {
+  const [employee_first_name, setFirstName] = useState('')
+  const [employee_last_name, setLastName] = useState('')
+  const [employee_email, setEmail] = useState('')
+  const [employee_password, setPassword] = useState('')
+  const [employee_phone, setPhoneNumber] = useState('')
+  const [active_employee, setActive_employee] = useState(1)
+  const [company_role_id, setRole] = useState(1)
+  
+  // set error
+  const [emailError, setEmailError] = useState('')
+  const [firstNameRequired, setFirstNameRequires] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+  const [sucess, setSucess] = useState(false)
+  const [serverError, setServerError] = useState('')
+
+  const handleSubmit = (e) => {
   e.preventDefault()
   // handle client side validation
   let valid = true  // flag
@@ -15,21 +31,20 @@ const handleSubmit = (e) => {
     setFirstNameRequires('')
   }
   
-  // email required
-  if(!employee_email ){
-    setEmail('Email is required')
-    valid = false
-  } else if(!employee_email.includes('@')){
-    setEmailError('Invalid email format')
-  } else{
-    const regex = /^\S+@\S+\.\S+$/;
-  }
-  if(!regex.test(employee_email)){
-    setEmailError('Invalid email format')
-    valid = false
-  } else {
-    setEmailError('')
-  }
+ // Email validation
+    if (!employee_email) {
+      setEmailError('Email is required');
+      valid = false;
+    } else {
+      const regex = /^\S+@\S+\.\S+$/;
+      if (!regex.test(employee_email)) {
+        setEmailError('Invalid email format');
+        valid = false;
+      } else {
+        setEmailError('');
+      }
+    }
+    
   
   // password limit
   if(!employee_password || employee_password.length < 6) {
@@ -65,7 +80,7 @@ const handleSubmit = (e) => {
       setServerError('')
       
       setTimeout(()=> {
-        window.location.href('/')
+        window.location.href = '/'
       },2000)
     }
   })
@@ -76,27 +91,11 @@ const handleSubmit = (e) => {
       error.response.data.message) ||
       error.message ||
       error.toString()
-      serverError(resMessage)
+      setServerError(resMessage)
       
       
     })
   }
-  function AddEmployeeForm() {
-  const [employee_first_name, setFirstName] = useState('')
-  const [employee_last_name, setLastName] = useState('')
-  const [employee_email, setEmail] = useState('')
-  const [employee_password, setPassword] = useState('')
-  const [employee_phone, setPhoneNumber] = useState('')
-  const [active_employee, setActive_employee] = useState(1)
-  const [company_role_id, setRole] = useState(1)
-  
-  // set error
-  const [emailError, setEmailError] = useState('')
-  const [firstNameRequired, setFirstNameRequires] = useState('')
-  const [passwordError, setPasswordError] = useState('')
-  const [sucess, setSucess] = useState(false)
-  const [serverError, setServerError] = useState('')
-
   return (
    
     <section className="contact-section">
@@ -140,7 +139,7 @@ const handleSubmit = (e) => {
                     </div>
 
                     <div className="form-group col-md-12">
-                      <input type="password" value={setPassword} name="employee_password" onChange={event => setPassword(event.target.value)} placeholder="Employee password" />
+                      <input type="password" value={employee_password} name="employee_password" onChange={event => setPassword(event.target.value)} placeholder="Employee password" />
                       {passwordError && <div className="validation-error" role="alert">{passwordError}</div>
                       }
                     </div>
