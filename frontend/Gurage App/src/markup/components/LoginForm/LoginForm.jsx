@@ -51,8 +51,9 @@ function LoginForm() {
 
     if (data.status === "success") {
       if (data?.data?.employee_token) {
-        localStorage.setItem("employee_token", data.data.employee_token);
+        localStorage.setItem("employee_token", data?.data?.employee_token);
       }
+      localStorage.setItem("employee",JSON.stringify(data.data))
 
       navigate('/');
     } else {
@@ -76,7 +77,10 @@ function LoginForm() {
                 <form onSubmit={handleSubmit}>
                   <div className="row clearfix">
                     <div className="form-group col-md-12">
-                      {setServerError && <div className="validation" role="alert">{setServerError}</div>
+                      {setServerError && (
+                      
+                      <div className="validation" role="alert">{setServerError}</div>
+                      )
                       }
                       <input type="email" value={employee_email} name="employee_email" onChange={event => setEmail(event.target.value)} placeholder="Email" />
                       {emailError &&
