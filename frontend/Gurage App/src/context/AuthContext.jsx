@@ -16,30 +16,25 @@ export const AuthProvider = ({children}) => {
     const [isAdmin, setIsAdmin] = useState(false)
     const [employee, setEmployee] = useState(null)
 
-    const value = {isLogged,isAdmin,setIsAdmin,setIsLogged,employee}
+    const value = {isLogged,setIsLogged,isAdmin,setIsAdmin,employee, setEmployee}
 
    useEffect(() => {
-  const loadAuth = async () => {
+   const loadAuth = async () => {
     try {
       const response = await getAuth()
       console.log("AUTH RESPONSE:", response)
-
       if (!response) return
-
       if (response) {
         setIsLogged(true)
       }
-
       if (response.employee_role === 3) {
         setIsAdmin(true)
       }
-
       setEmployee(response)
     } catch (err) {
       console.log("AUTH ERROR:", err)
     }
   }
-
   loadAuth()
 }, [])
 
@@ -49,3 +44,7 @@ export const AuthProvider = ({children}) => {
         </AuthContext.Provider>
     )
 }
+
+
+
+
