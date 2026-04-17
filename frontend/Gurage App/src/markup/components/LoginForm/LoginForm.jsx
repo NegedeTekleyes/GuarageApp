@@ -9,7 +9,7 @@ function LoginForm() {
   const [employee_password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
-  const [serverError, setServerError] = useState('')
+  const [ServerError, setServerError] = useState('')
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -77,11 +77,13 @@ function LoginForm() {
                 <form onSubmit={handleSubmit}>
                   <div className="row clearfix">
                     <div className="form-group col-md-12">
-                      {setServerError && (
+                      {ServerError && (
+                        <div className="validation" role="alert">
+                          {ServerError}
+                          </div>
+                      )}
                       
-                      <div className="validation" role="alert">{setServerError}</div>
-                      )
-                      }
+                      
                       <input type="email" value={employee_email} name="employee_email" onChange={event => setEmail(event.target.value)} placeholder="Email" />
                       {emailError &&
                       <div className="validation-error" role="alert">{emailError}</div>
